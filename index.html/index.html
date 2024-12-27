@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rage.io Bitwa pod Ciechocinkiem</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #2c3e50;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            color: #ecf0f1;
+        }
+        .image-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .top-left {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 24px;
+            font-family: 'Lora', serif;
+            font-weight: bold;
+            color: #ecf0f1;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            z-index: 2;
+        }
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.2;
+        }
+        .ak47-image {
+            position: absolute;
+            top: 26%;
+            left: 57%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: auto;
+            z-index: 0;
+            opacity: 1;
+        }
+        h2 {
+            position: absolute;
+            color: #ecf0f1;
+            font-size: 50px;
+            font-family: 'Lora', serif;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            z-index: 2;
+        }
+        .main-title {
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .subtitle {
+            top: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .alpha-testing {
+            position: absolute;
+            top: 27%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+            font-family: 'Lora', serif;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            z-index: 2;
+        }
+        .paid-version {
+            top: 40%;
+            left: 40%;
+            z-index: 2;
+        }
+        .demo-version {
+            top: 40%;
+            right: 5%;
+            z-index: 2;
+        }
+        .price-box {
+            position: absolute;
+            top: 55%;
+            left: 40%;
+            background-color: transparent;
+            border: none;
+            text-align: center;
+            z-index: 2;
+        }
+        button {
+            padding: 15px 30px;
+            background-color: #e74c3c;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+            box-shadow: 0 12px 8px rgba(0, 0, 0, 0.2);
+        }
+        button:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+        .showcase {
+            position: absolute;
+            top: 75%;
+            width: 80%;
+            display: flex;
+            justify-content: space-around;
+        }
+        .section-title h3 {
+            color: white;
+            font-size: 24px;
+            font-family: 'Lora', serif;
+            margin-top: -230px;
+            text-align: center;
+        }
+        .showcase img {
+            width: 30%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+            opacity: 0.8;
+        }
+        .showcase img:hover {
+            transform: scale(1.05);
+        }
+        .section-title {
+            margin-top: 50px;
+        }
+        .dlcs {
+            position: absolute;
+            top: 40%;
+            left: 10%;
+            transform: translateX(-50%);
+            color: white;
+            font-weight: bold;
+            font-size: 50px;
+            z-index: 2;
+        }
+        .dlc-price-box {
+            position: absolute;
+            top: 55%; /* Lowered the button by increasing the top value */
+            left: 10%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+        .dlc-price-box button {
+            padding: 20px 60px;
+            background-color: #a29bfe;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+            box-shadow: 0 12px 8px rgba(0, 0, 0, 0.2);
+        }
+        .dlc-price-box button:hover {
+            background-color: #c500e8;
+            transform: translateY(-2px);
+        }
+        /* Centered text at the top */
+        .site-creation-info {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 18px;
+            color: #ffffff;
+            font-family: 'Roboto', sans-serif;
+            font-weight: bold;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            z-index: 3;
+        }
+    </style>
+</head>
+<body>
+    <div class="image-container">
+        <div class="site-creation-info">It took 12 years to create this game for you!</div>
+        <div class="top-left">Alan Sadowski Games</div>
+        <img src="war.jpg" alt="Background Image">
+        <img src="ak47.jpg" alt="AK47 Image" class="ak47-image">
+        <h2 class="main-title">𝔅𝔦𝔱𝔴𝔞 𝔭𝔬𝔡</h2>
+        <h2 class="subtitle">𝕮𝖎𝖊𝖈𝖍𝖔𝖈𝖎𝖓𝖆𝖐𝖎𝖊𝖒</h2>
+        <h2 class="alpha-testing">Alpha testing 1.16 TDIA Version</h2>
+        <h2 class="paid-version">Paid Version</h2>
+        <div class="price-box">
+            <button onclick="alert('You are not old enough to play this game! Try the demo version instead.')">
+                Winter sale <del>250PLN</del> <span style="color: yellow; font-weight: bold;">100PLN</span><br>Available in 2 days!
+            </button>
+        </div>
+        <h2 class="demo-version">Demo Version</h2>
+        <div class="section-title">
+            <h3>Screenshots directly from game (note that game is using Ultra+ graphics)</h3>
+        </div>
+        <div class="showcase">
+            <img src="war1.jpg" alt="Description of war1">
+            <img src="war2.jpg" alt="Description of war2">
+            <img src="war3.jpg" alt="Description of war3">
+        </div>
+    </div>
+
+    <!-- DLC's section -->
+    <h2 class="dlcs">DLC's</h2>
+    <div class="dlc-price-box">
+        <button onclick="alert('Coming soon!')">Check here!</button>
+    </div>
+</body>
+</html>
