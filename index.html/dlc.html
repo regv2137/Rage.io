@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DLC's for the game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            color: #ecf0f1;
+            background: linear-gradient(to bottom, #000000, #2d3436); /* Black to dark gray gradient */
+        }
+        h1, h2 {
+            text-align: center;
+            font-family: 'Lora', serif;
+            color: #ecf0f1;
+            margin-top: 20px;
+        }
+        .dlc-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px;
+        }
+        .dlc-info {
+            background-color: #212121; /* Very dark gray background for the rectangles */
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 800px;
+            margin-bottom: 20px;
+            text-align: center;
+            cursor: pointer; /* Makes the box look clickable */
+            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+        }
+        .dlc-info h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .dlc-info p {
+            font-size: 18px;
+        }
+        .dlc-info.active {
+            background-color: #34495e; /* Slightly lighter dark gray on click */
+        }
+        .dlc-info:hover {
+            background-color: #2c3e50; /* Darker shade when hovered */
+            transform: scale(1.05); /* Slightly increase the size on hover */
+        }
+        .price-box {
+            margin-top: 20px;
+        }
+        .price-box button {
+            padding: 15px 30px;
+            background-color: #34495e; /* Dark gray background to match the theme */
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+            box-shadow: 0 12px 8px rgba(0, 0, 0, 0.2);
+        }
+        .price-box button:hover {
+            background-color: #2c3e50; /* Slightly lighter gray when hovering */
+            transform: translateY(-2px);
+        }
+        .back-button {
+            padding: 15px 30px;
+            background-color: #2c3e50; /* Dark gray button to match the theme */
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 12px 8px rgba(0, 0, 0, 0.2);
+        }
+        .back-button:hover {
+            background-color: #34495e; /* Slightly lighter gray when hovering */
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>DLC's for the game</h1>
+
+    <div class="dlc-content">
+        <div class="dlc-info" onclick="toggleDLC(this)">
+            <h3>Wołomin Battle</h3>
+            <p>Experience the intense fight for control in the key region of Wołomin.</p>
+            <p><strong>Price: 50 PLN</strong></p>
+        </div>
+        
+        <div class="dlc-info" onclick="toggleDLC(this)">
+            <h3>Włocławek Invasion</h3>
+            <p>Join the battle to defend Włocławek from the invading forces in this thrilling DLC.</p>
+            <p><strong>Price: 50 PLN</strong></p>
+        </div>
+
+        <div class="dlc-info" onclick="toggleDLC(this)">
+            <h3>Piastów Riot</h3>
+            <p>Relive the chaos and disorder as the streets of Piastów erupt into a violent riot.</p>
+            <p><strong>Price: 30 PLN</strong></p>
+        </div>
+
+        <div class="dlc-info" onclick="toggleDLC(this)">
+            <h3>Operation "Kościerzyna"</h3>
+            <p>Engage in Operation "Kościerzyna," a high-stakes military operation against enemy forces.</p>
+            <p><strong>Price: 40 PLN</strong></p>
+        </div>
+
+        <div class="dlc-info" onclick="toggleDLC(this)">
+            <h3>Chojnice Campaign</h3>
+            <p>Fight through the strategic campaign in Chojnice, where the future of the region is at stake.</p>
+            <p><strong>Price: 50 PLN</strong></p>
+        </div>
+
+        <div class="dlc-info" onclick="toggleDLC(this)">
+            <h3>Radzymin Storm</h3>
+            <p>Brace for the storm in Radzymin, a pivotal moment in the war with heavy combat and destruction.</p>
+            <p><strong>Price: 50 PLN</strong></p>
+        </div>
+
+        <div class="dlc-info" onclick="toggleDLC(this)">
+            <h3>Szczawnica Assault</h3>
+            <p>Experience the brutal assault on Szczawnica, where strategic positioning is everything.</p>
+            <p><strong>Price: 40 PLN</strong></p>
+        </div>
+
+        <div class="dlc-info" onclick="toggleDLC(this)">
+            <h3>Piaseczno Civil War</h3>
+            <p>Step into the chaos of the Piaseczno Civil War, a brutal fight for control in the streets.</p>
+            <p><strong>Price: 50 PLN</strong></p>
+        </div>
+
+        <div class="dlc-info" onclick="toggleDLC(this)">
+            <h3>Battle of Łaziska Górne</h3>
+            <p>Relive the intense and dramatic Battle of Łaziska Górne, where every decision counts.</p>
+            <p><strong>Price: 50 PLN</strong></p>
+        </div>
+
+        <div class="price-box">
+            <button onclick="alert('Purchase DLC!')">Buy Now</button>
+        </div>
+        
+        <button class="back-button" onclick="window.location.href='index.html';">Back to Main Page</button>
+    </div>
+
+    <script>
+        function toggleDLC(dlcElement) {
+            dlcElement.classList.toggle("active");
+        }
+    </script>
+
+</body>
+</html>
