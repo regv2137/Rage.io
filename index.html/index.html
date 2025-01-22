@@ -8,14 +8,13 @@
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Arial', sans-serif; /* Keep original font */
+            font-family: 'Arial', sans-serif;
             color: #ecf0f1;
             height: 100vh;
             overflow: hidden;
-            background: linear-gradient(to bottom, #333333, #000000); /* Gradient from gray to black */
+            background: linear-gradient(to bottom, #333333, #000000);
         }
 
-        /* Container for background image */
         .background-container {
             position: absolute;
             top: 0;
@@ -26,8 +25,8 @@
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-            opacity: 0.3; /* Slightly more visible background */
-            z-index: -1; /* Ensures it stays behind other content */
+            opacity: 0.3;
+            z-index: -1;
         }
 
         .image-container {
@@ -97,7 +96,7 @@
 
         .price-box {
             position: absolute;
-            top: 50%;
+            top: 51%;
             left: 40%;
             background-color: transparent;
             border: none;
@@ -109,7 +108,7 @@
             width: 300px;
             height: 70px;
             padding: 15px 30px;
-            background: linear-gradient(45deg, #444444, #1a1a1a); /* Slightly lighter gradient */
+            background: linear-gradient(45deg, #444444, #1a1a1a);
             color: #ffffff;
             border: none;
             border-radius: 5px;
@@ -121,7 +120,7 @@
         }
 
         .price-box button:hover {
-            background: linear-gradient(45deg, #555555, #222222); /* Lighter gradient on hover */
+            background: linear-gradient(45deg, #555555, #222222);
             transform: translateY(-3px) scale(1.05);
         }
 
@@ -160,7 +159,7 @@
 
         .dlc-price-box {
             position: absolute;
-            top: 50%; /* Lowered the button by increasing the top value */
+            top: 50%;
             left: 15%;
             transform: translateX(-50%);
             z-index: 2;
@@ -168,7 +167,7 @@
 
         .dlc-price-box button {
             padding: 20px 60px;
-            background: linear-gradient(45deg, #444444, #1a1a1a); /* Slightly lighter gradient */
+            background: linear-gradient(45deg, #444444, #1a1a1a);
             color: #ffffff;
             border: none;
             border-radius: 5px;
@@ -180,23 +179,35 @@
         }
 
         .dlc-price-box button:hover {
-            background: linear-gradient(45deg, #555555, #222222); /* Lighter gradient on hover */
+            background: linear-gradient(45deg, #555555, #222222);
             transform: translateY(-3px) scale(1.05);
         }
 
-        .site-creation-info {
+        .download-buttons {
             position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 18px;
+            top: 50%;
+            right: 10%;
+            display: flex;
+            gap: 10px;
+            z-index: 2;
+        }
+
+        .download-buttons button {
+            padding: 25px 40px;
+            background: linear-gradient(45deg, #444444, #1a1a1a);
             color: #ffffff;
-            font-weight: bold;
-            background-color: rgba(0, 0, 0, 0.7);
-            padding: 10px 20px;
+            border: none;
             border-radius: 5px;
-            box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-            z-index: 3;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+            box-shadow: 0 8px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .download-buttons button:hover {
+            background: linear-gradient(45deg, #555555, #222222);
+            transform: translateY(-2px) scale(1.05);
         }
 
         footer {
@@ -211,7 +222,7 @@
     </style>
 </head>
 <body>
-    <div class="background-container"></div> <!-- Background image with opacity -->
+    <div class="background-container"></div>
     <div class="image-container">
         <div class="site-creation-info">It took us 12 years to create this game for you!</div>
         <div class="top-left">Alan Sadowski Games</div>
@@ -225,6 +236,10 @@
             </button>
         </div>
         <h2 class="demo-version">Demo Version</h2>
+        <div class="download-buttons">
+            <button onclick="downloadFile('BPC main.zip')">BPC Main</button>
+            <button onclick="downloadFile('BPC files.zip')">BPC Files</button>
+        </div>
         <div class="showcase">
             <img src="war1.jpg" alt="Description of war1">
             <img src="war2.jpg" alt="Description of war2">
@@ -232,7 +247,6 @@
         </div>
     </div>
 
-    <!-- DLC's section -->
     <h2 class="dlcs">DLC's</h2>
     <div class="dlc-price-box">
         <a href="dlc.html">
@@ -240,9 +254,17 @@
         </a>
     </div>
 
-    <!-- Footer -->
     <footer>
         © 2024 Alan Sadowski Games. All rights reserved.
     </footer>
+
+    <script>
+        function downloadFile(fileName) {
+            const link = document.createElement('a');
+            link.href = fileName; // Path to the zip file
+            link.download = fileName; // Default name for the downloaded file
+            link.click();
+        }
+    </script>
 </body>
 </html>
