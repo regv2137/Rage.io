@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steam Works - Partner Portal / Valve Back-End Service</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=Roboto:wght@300;400;500;700&display=swap');
+
+        :root {
+            --steam-blue: #1b2838;
+            --steam-dark: #101822;
+            --steam-light-blue: #2a475e;
+            --steam-sky: #66c0f4;
+            --steam-text: #c7d5e0;
+            --valve-grey: #22252b;
+            --console-black: #0d0f12;
+            --alert-orange: #d97706;
+            --border-color: #3d4450;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--steam-dark);
+            color: var(--steam-text);
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Top Internal Steam Bar */
+        .steam-partner-header {
+            background-color: var(--valve-grey);
+            border-bottom: 1px solid #121418;
+            padding: 10px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .partner-title {
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 15px;
+        }
+
+        .partner-title span {
+            background-color: #4c6b22;
+            color: #fff;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 3px;
+            text-transform: uppercase;
+        }
+
+        .user-node {
+            font-size: 12px;
+            color: #8f98a0;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        /* Tab Navigation (Internal App Look) */
+        .app-nav-tabs {
+            background-color: #172030;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            padding-left: 25px;
+        }
+
+        .tab-item {
+            padding: 12px 20px;
+            color: #8f98a0;
+            text-decoration: none;
+            border-right: 1px solid #121a24;
+            font-weight: 500;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .tab-item.active {
+            background-color: var(--steam-blue);
+            color: #fff;
+            border-bottom: 2px solid var(--steam-sky);
+        }
+
+        .tab-item:hover:not(.active) {
+            background-color: #1b2636;
+            color: #fff;
+        }
+
+        /* Alert Warning Banner */
+        .internal-warning-banner {
+            background-color: rgba(217, 119, 6, 0.1);
+            border: 1px solid var(--alert-orange);
+            margin: 20px 25px 0 25px;
+            padding: 15px 20px;
+            border-radius: 3px;
+            color: #f59e0b;
+            font-size: 13px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .internal-warning-banner strong {
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Layout Container */
+        .workspace-grid {
+            padding: 25px;
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 25px;
+        }
+
+        /* Main Config Area */
+        .config-card {
+            background-color: var(--steam-blue);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        .doc-section-title {
+            font-size: 18px;
+            color: #fff;
+            font-weight: 500;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--steam-light-blue);
+            padding-bottom: 10px;
+        }
+
+        .meta-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+            font-size: 13px;
+        }
+
+        .meta-table td {
+            padding: 8px 12px;
+            border: 1px solid #233447;
+        }
+
+        .meta-table td.label {
+            background-color: rgba(0, 0, 0, 0.2);
+            color: #8f98a0;
+            width: 25%;
+            font-weight: 500;
+        }
+
+        .meta-table td.value {
+            font-family: 'Roboto Mono', monospace;
+            color: #fff;
+        }
+
+        .parameter-block {
+            background-color: var(--console-black);
+            border: 1px solid #1f2730;
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .parameter-title {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 14px;
+            color: var(--steam-sky);
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .parameter-status {
+            font-size: 11px;
+            background-color: #2a475e;
+            color: #fff;
+            padding: 2px 6px;
+            border-radius: 2px;
+        }
+
+        .parameter-status.danger {
+            background-color: #7f1d1d;
+            color: #fca5a5;
+        }
+
+        .parameter-desc {
+            font-size: 13px;
+            color: #cbd5e1;
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        /* Code syntax styling inside block */
+        .syntax-block {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 12px;
+            color: #a6b5c5;
+            background-color: #050608;
+            padding: 12px;
+            border-radius: 3px;
+            border-left: 3px solid var(--steam-sky);
+            white-space: pre-wrap;
+        }
+
+        /* Sidebar info panels */
+        .sidebar-panel {
+            background-color: #172030;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .sidebar-title {
+            font-size: 13px;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .manifest-list {
+            list-style: none;
+        }
+
+        .manifest-list li {
+            font-size: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid #1f2d42;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .manifest-list li span {
+            display: block;
+            font-size: 11px;
+            color: #66c0f4;
+            font-family: 'Roboto', sans-serif;
+            margin-top: 2px;
+        }
+
+        .sys-indicator {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .indicator-green { color: #4cd137; font-weight: bold; }
+        .indicator-orange { color: #facc15; font-weight: bold; }
+
+        footer {
+            background-color: var(--valve-grey);
+            padding: 30px;
+            text-align: center;
+            font-size: 11px;
+            color: #616875;
+            border-top: 1px solid #121418;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Internal Steamworks Portal Header -->
+    <div class="steam-partner-header">
+        <div class="partner-title">
+            <img src="https://store.cloudflare.steamstatic.com/public/shared/images/header/logo_steam.svg" alt="Steam" style="height: 20px; filter: brightness(10);">
+            Steamworks Partner Portal <span>Internal Dev-Branch</span>
+        </div>
+        <div class="user-node">Node: secure_staging_srv_46 // Auth: VALV-730-PROD</div>
+    </div>
+
+    <!-- Interface Navigation Tabs -->
+    <div class="app-nav-tabs">
+        <a href="https://partner.steamgames.com/" target="_blank" class="tab-item">Dashboard</a>
+        <a href="https://partner.steamgames.com/doc" target="_blank" class="tab-item">App Admin (ID: 730)</a>
+        <a href="#manifests" class="tab-item active">Manifesty i Drzewa Zrzutów</a>
+        <a href="https://partner.steamgames.com/apps/depots/730" target="_blank" class="tab-item">Zasoby i Depozyty</a>
+        <a href="https://partner.steamgames.com/support" target="_blank" class="tab-item">Zgłoszenia i Zgody</a>
+    </div>
+
+    <!-- System Warning Banner -->
+    <div class="internal-warning-banner">
+        <strong>⚠️ POUFNE – DOKUMENTACJA WEWNĘTRZNA VALVE CORPORATION</strong>
+        Zasoby rynkowe i modyfikatory struktury ekonomicznej w fazie testowej (staging). Zmiany wprowadzone na tej stronie wpływają bezpośrednio na produkcyjną bazę danych przedmiotów platformy Steam po zatwierdzeniu manifestu głównego.
+    </div>
+
+    <!-- Main App Layout Grid -->
+    <div class="workspace-grid">
+        
+        <!-- Main Panel Configuration Sheet -->
+        <main class="config-card">
+            <h2 class="doc-section-title">Dokumentacja Manifestu v2.046 — Implementacja nagród PvE (Operacja Whiteout)</h2>
+            
+            <table class="meta-table">
+                <tr>
+                    <td class="label">ID Aplikacji (AppID)</td>
+                    <td class="value">730 (Counter-Strike 2)</td>
+                </tr>
+                <tr>
+                    <td class="label">Gałąź źródłowa (Source Branch)</td>
+                    <td class="value">staging_pve_campaign_assets</td>
+                </tr>
+                <tr>
+                    <td class="label">ID Zatwierdzenia (Commit ID)</td>
+                    <td class="value">0x730_VALVE_LABS_99182</td>
+                </tr>
+                <tr>
+                    <td class="label">Status Wdrożenia</td>
+                    <td class="value" style="color: #4cd137; font-weight: bold;">Zatwierdzony do migracji (Koniec Q3 2026)</td>
+                </tr>
+            </table>
+
+            <p>
+                Niniejszy panel administracyjny odzwierciedla zmiany w strukturze dystrybucji przedmiotów wirtualnych dla aplikacji 730 (Counter-Strike 2). Wdrożenie modułu kooperacyjnego PvE (Kampania Fabularna) wymusiło integrację nowych typów asynchronicznych modyfikatorów ekwipunku, których celem jest restrukturyzacja i stabilizacja cenowa zewnętrznego rynku wymiany.
+            </p>
+
+            <h2>Modyfikatory struktury ekonomicznej (Korekta Asymetrii Rynku)</h2>
+            <p style="font-size: 13px; color: #8f98a0; margin-top: -15px; margin-bottom: 20px;">
+                Poniższe parametry zostały zmapowane w głównym drzewie serwerowym i zostaną aktywowane automatycznie wraz z premierą sezonu operacji.
+            </p>
+
+            <!-- Parameter 1: Knife Drops -->
+            <div class="parameter-block">
+                <div class="parameter-title">
+                    <span>1. Generator Noży Niewymiennych (campaign_reward_genuine_knife_pool)</span>
+                    <span class="parameter-status">AKTYWNY W MANIFEŚCIE</span>
+                </div>
+                <div class="parameter-desc">
+                    Skrypt odpowiedzialny za dystrybucję nagrody za ukończenie głównego wątku kampanii PvE na poziomie trudności "Ekspert". System generuje unikalny token uprawniający użytkownika do przypisania do konta jednego z trzech bazowych modeli broni białej: <strong>Karambit, Bagnet M9 lub Nóż Motylkowy</strong>.
+                </div>
+                <div class="syntax-block">
+"reward_item_definition" {
+    "target_models"      "v_knife_karam, v_knife_m9_bay, v_knife_butterfly"
+    "generation_wear"    "random_float_range [0.0001 - 0.9999]"
+    "market_protection"  "1"
+    "system_flags"       "ITEM_FLAG_PERMANENT_UNTRADEABLE_BOUND"
+}</div>
+                <p style="font-size: 12.5px; color: #a6b5c5; margin-top: 10px; margin-bottom: 0;">
+                    <strong>Wpływ na rynek:</strong> Przedmioty te posiadają rygorystyczne flagi blokady handlowej. Brak możliwości migracji na zewnątrz konta drastycznie ograniczy popyt konsumencki na komercyjne noże z rynku Steam do wartości 1500 PLN, doprowadzając do natychmiastowego wyrównania cen rynkowych.
+                </p>
+            </div>
+
+            <!-- Parameter 2: StatTrak -->
+            <div class="parameter-block">
+                <div class="parameter-title">
+                    <span>2. Łącznik Translacyjny Liczników (item_stattrak_redirection_link)</span>
+                    <span class="parameter-status">TESTY INTEGRACYJNE</span>
+                </div>
+                <div class="parameter-desc">
+                    Wprowadzenie zużywalnego przedmiotu dropu uzyskiwanego za wyzwania tygodniowe operacji. Pozwala użytkownikowi końcowemu na odłączenie licznika zabójstw StatTrak od wybranego skina broni i migrację zebranych danych na inny model broni tej samej kategorii w ekwipunku. 
+                </div>
+                <div class="syntax-block">
+"stattrak_transfer_config" {
+    "allow_cross_skin_migration"  "1"
+    "reset_source_counter"        "1"
+    "consume_on_success"          "1"
+}</div>
+                <p style="font-size: 12.5px; color: #a6b5c5; margin-top: 10px; margin-bottom: 0;">
+                    <strong>Wpływ na rynek:</strong> Likwiduje to unikalną barierę cenową sztucznie zawyżającą wartość fabrycznych skinów z wbudowanym od początku modułem StatTrak na zewnętrznych giełdach.
+                </p>
+            </div>
+
+            <!-- Parameter 3: Float Ticket -->
+            <div class="parameter-block">
+                <div class="parameter-title">
+                    <span>3. Certyfikat Rekonstrukcji Zużycia (float_reroll_ticket_handler)</span>
+                    <span class="parameter-status danger">KRYTYCZNE ZAGROŻENIE SPEKULACYJNE</span>
+                </div>
+                <div class="parameter-desc">
+                    Wdrożenie biletów rzemieślniczych wymienianych za punkty kampanii PvE. Certyfikat pozwala na bezpośrednią modyfikację bazy danych floatu przypisanej do konkretnego identyfikatora przedmiotu (AssetID). Umożliwia przesunięcie współczynnika wear-tear o stałą wartość <strong>±0.1</strong>.
+                </div>
+                <div class="syntax-block">
+"float_modifier_engine" {
+    "allowed_steps"          "modify_float_step_01"
+    "min_allowed_float"      "0.0001"
+    "apply_to_souvenir"      "0"
+    "recalculate_market_id"  "1"
+}</div>
+                <p style="font-size: 12.5px; color: #a6b5c5; margin-top: 10px; margin-bottom: 0;">
+                    <strong>Wpływ na rynek:</strong> Pozwala na masową transformację porysowanych skinów (np. Field-Tested) do perfekcyjnej kondycji Factory New. Rzadkie i drogie skiny o skrajnie niskim floacie całkowicie utracą swoją dotychczasową unikalność kolekcjonerską.
+                </p>
+            </div>
+
+        </main>
+
+        <!-- Sidebar - Steam Backend Widgets -->
+        <aside class="sidebar">
+            
+            <div class="sidebar-panel">
+                <div class="sidebar-title">Status Budowy i Kompilacji</div>
+                <div class="sys-indicator"><span>Główny manifest sieci:</span><span class="indicator-green">ZSYNCHRONIZOWANY</span></div>
+                <div class="sys-indicator"><span>Depozyty zawartości PvE:</span><span class="indicator-green">100% KOMPLETNY</span></div>
+                <div class="sys-indicator"><span>Drzewo przedmiotów Steam:</span><span class="indicator-orange">ZABLOKOWANE (STAGING)</span></div>
+                <div class="sys-indicator"><span>Weryfikacja sum kontrolnych:</span><span class="indicator-green">ZGODNA</span></div>
+            </div>
+
+            <div class="sidebar-panel">
+                <div class="sidebar-title">Aktywne Gałęzie Deweloperskie (CS2)</div>
+                <ul class="manifest-list">
+                    <li>
+                        staging_pve_campaign_assets
+                        <span>Aktywna synchronizacja (22 czerwca 2026, 11:32)</span>
+                    </li>
+                    <li>
+                        vac_live_engine_upgrade_b3
+                        <span>Zatwierdzony do wdrożenia (15 czerwca 2026)</span>
+                    </li>
+                    <li>
+                        subtick_network_stabilizer
+                        <span>Wdrożony na produkcję (09 czerwca 2026)</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="sidebar-panel">
+                <div class="sidebar-title">Powiązane Narzędzia i Linki</div>
+                <p style="font-size: 12px; color: #8f98a0; line-height: 1.4;">
+                    Wszystkie modyfikacje bazy danych są monitorowane i audytowane zgodnie z polityką bezpieczeństwa Valve.
+                </p>
+                <a href="https://partner.steamgames.com/doc" target="_blank" class="btn-link" style="font-size: 11px;">DOKUMENTACJA STEAMWORKS →</a>
+                <br>
+                <a href="https://steamdb.info/app/730/history/" target="_blank" class="btn-link" style="font-size: 11px; margin-top: 5px;">HISTORIA ZMIAN NA STEAMDB →</a>
+            </div>
+
+        </aside>
+
+    </div>
+
+    <!-- Steamworks Footer -->
+    <footer>
+        <p>© 2026 Valve Corporation. Steamworks, Steam, Source, Source 2 oraz logo Steam są znakami towarowymi lub zastrzeżonymi znakami towarowymi Valve Corporation w Stanach Zjednoczonych i innych krajach.</p>
+        <p>Poufny system dostępu sieciowego Valve. Nieautoryzowany dostęp lub dystrybucja danych konfiguracyjnych bez zgody administratora sieci grozi zablokowaniem konta partnerskiego. <a href="https://partner.steamgames.com/agreement" target="_blank" style="color: #8f98a0;">Umowa Partnerska Steamworks</a>.</p>
+    </footer>
+
+</body>
+</html>
